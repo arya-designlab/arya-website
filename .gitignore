@@ -4,3 +4,4 @@ dist/
 .DS_Store
 qa/
 stage-1-creative-and-content.md
+.vercel
