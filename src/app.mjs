@@ -24,6 +24,9 @@ const comparisons={
  ai:['Financial questions needed a focused place within the experience.','Ask became a dedicated full-screen conversation.','Human direction gave the question, answer, and composer their own space within the main navigation. This reflects a design decision; no comparative usability outcome is claimed.']
 };
 tabs('[data-qa]',b=>{selectTab('[data-qa]',b,'#qa-panel');const [before,after,detail]=comparisons[b.dataset.qa];$('#qa-before').textContent=before;$('#qa-after').textContent=after;$('#qa-detail').textContent=detail;animatePanel('#qa-panel')});
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+let motionReduced=reduced.matches;
+try{motionReduced=motionReduced||localStorage.getItem('arya-motion')==='reduce'}catch{}
 if($('#phase-detail')){
  let phase=1,detail='overview',view='interactive';
  function render(updateURL=true){const p=phases[phase-1];$('#agent-select').value=String(phase);$$('[data-phase]').forEach(b=>{const selected=+b.dataset.phase===phase;b.classList.toggle('selected',selected);b.setAttribute('aria-pressed',selected)});$('#phase-detail').innerHTML=phaseDetail(p,detail);animatePanel('#phase-detail');const tab=$(`[data-phase-tab="${detail}"]`);selectTab('[data-phase-tab]',tab,'#phase-detail');$('#previous-phase').disabled=phase===1;$('#next-phase').disabled=phase===8;$('#phase-position').textContent=String(phase).padStart(2,'0')+' / 08';$('#interactive-view').hidden=view!=='interactive';$('#linear-view').hidden=view!=='linear';$$('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===view);b.setAttribute('aria-pressed',b.dataset.view===view)});if(updateURL){const url=new URL(location.href);url.searchParams.set('phase',phase);url.searchParams.set('detail',detail);if(view==='linear')url.searchParams.set('view',view);else url.searchParams.delete('view');history.replaceState(null,'',url)}}
@@ -41,9 +44,6 @@ tabs('[data-system]',b=>{selectTab('[data-system]',b,'#system-detail');const ite
 const preview=$('#moniflow-preview');
 preview?.addEventListener('error',()=>{$('#preview-status').textContent='The preview is unavailable. Use the link below to open MoniFlow.'});
 $$('.case-chapters a').forEach(a=>a.addEventListener('click',()=>{$('.case-chapters details').open=false}));
-const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-let motionReduced=reduced.matches;
-try{motionReduced=motionReduced||localStorage.getItem('arya-motion')==='reduce'}catch{}
 function applyMotion(){document.documentElement.dataset.motion=motionReduced?'reduce':'full';const b=$('#motion-toggle');b.setAttribute('aria-pressed',motionReduced);b.textContent=motionReduced?'Motion reduced':'Reduce motion';b.disabled=reduced.matches;if(reduced.matches)b.title='Following your system preference'}
 applyMotion();
 $('#motion-toggle').addEventListener('click',()=>{motionReduced=!motionReduced;applyMotion();try{localStorage.setItem('arya-motion',motionReduced?'reduce':'full')}catch{}});

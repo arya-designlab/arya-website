@@ -409,6 +409,7 @@ body.page-projects main>.case-hero{padding-bottom:60px}
 body{background-color:var(--paper);background-image:none}
 /* Texture is reserved for page introductions, the homepage CTA, and the footer. */
 .home-hero,.page-heading,.contact-teaser,footer{background-color:var(--paper);background-image:var(--paper-texture);background-position:center top;background-repeat:no-repeat;background-size:cover;background-attachment:fixed}
+@media(max-width:800px){.home-hero,.page-heading,.contact-teaser,footer{background-attachment:scroll;background-size:auto 1024px;background-repeat:repeat-y}}
 /* Navigation and small utility surfaces stay calm for legibility. */
 .top-header,.case-nav,.side-index,#mobile-menu,.button.paper,.thread-toggle{background-color:var(--paper)}
 /* The supplied texture replaces the earlier generated grain treatment. */
